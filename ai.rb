@@ -20,13 +20,12 @@ module NumGame
     end
 
     def process row, a, b
-      candidates = generate_candidates(row.scan(/./), a, b)
+      candidates = expand_candidates(row.scan(/./), a, b)
       if ans.empty?
         answers_generate(candidates)
       else
-        answers_filter(candidates_to_regexp(candidates))
-      end
-      guess
+        answers_filter(c2regexp(candidates))
+      end.last.sample
     end
 
     def session_guess
@@ -34,65 +33,51 @@ module NumGame
     end
 
     def session_process a, b
-      return nil unless @session_guess
-      process(@session_guess, a, b)
-      @session_guess = guess
+      @session_guess = process(session_guess, a, b)
     end
 
     private
+    def expand_candidates row, a, b
+      select_match_a(row, a, expand_all(row, a + b))
+    end
+
+    def expand_all row, n
+      row.combination(n).map{ |candidate|
+        expand_placeholder(row, candidate).permutation(row.size).to_a.uniq
+      }.flatten(1)
+    end
+
+    def expand_placeholder row, candidate
+      candidate + [row - candidate] * (row.size - candidate.size)
+    end
+
+    def select_match_a row, a, candidates
+      candidates.select{ |c| count_a(row, c) == a }
+    end
+
+    def count_a row, candidate
+      row.zip(candidate).count{ |x,y| x == y }
+    end
+
     def answers_generate candidates
       @ans << candidates.map{ |c|
-        v = c.group_by{ |a| a.kind_of?(Array) }
-        (set - v[true][0] - v[false]).permutation(v[true].size).map{ |b|
-          c.map{ |i|
-            if i.kind_of?(Array)
-              b.shift
-            else
-              i
-            end
-          }.join
+        h = c.group_by{ |digit| digit.kind_of?(Array) }
+        (set - h[true][0] - h[false]).permutation(h[true].size).map{ |b|
+          c.map{ |digit| digit.kind_of?(Array) ? b.shift : digit }.join
         }
       }.flatten
     end
 
     def answers_filter regexp
-      @ans << @ans.last.select{ |ans|
-        regexp.find{ |r| ans =~ r }
-      }
+      @ans << @ans.last.select{ |ans| regexp.find{ |r| ans =~ r } }
     end
 
-    def candidates_to_regexp candidates
-      candidates.map{ |candidate|
-        Regexp.new("^#{regexp_string(candidate)}$")
-      }
+    def c2regexp candidates
+      candidates.map{ |c| Regexp.new("^#{c2regexp_str(c)}$") }
     end
 
-    def regexp_string candidate
-      candidate.map{ |c| c.kind_of?(Array) ? "[^#{c.join}]" : c }.join
-    end
-
-    def generate_candidates row, a, b
-      filter_impo(row, a, expand_all(row, a + b))
-    end
-
-    def expand_all row, n
-      row.combination(n).map{ |candidate|
-        insert_regexp(row, candidate).permutation(row.size).to_a.uniq
-      }.flatten(1)
-    end
-
-    def insert_regexp row, c#andidate
-      c + [(row - c)] * (row.size - c.size)
-    end
-
-    def filter_impo row, a, candidates
-      candidates.select{ |c|
-        count_a(row, c) == a
-      }
-    end
-
-    def count_a row, candidate
-      row.zip(candidate).count{ |x,y| x == y }
+    def c2regexp_str c
+      c.map{ |digit| digit.kind_of?(Array) ? "[^#{digit.join}]" : digit }.join
     end
   end # of AI
 end # of NumGame
