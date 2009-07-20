@@ -33,6 +33,9 @@ module NumGame
     end
 
     def session_process a, b
+      raise("Please call #{self.class.name}#session_guess first") unless
+        @session_guess
+
       @session_guess = process(session_guess, a, b)
     end
 
