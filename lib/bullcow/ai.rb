@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-module NumGame
+module BullCow
   class AI
     attr_reader :set, :size, :ans
 
@@ -82,4 +82,4 @@ module NumGame
       c.map{ |digit| digit.kind_of?(Array) ? "[^#{digit.join}]" : digit }.join
     end
   end # of AI
-end # of NumGame
+end # of BullCow
