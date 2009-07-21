@@ -1,0 +1,81 @@
+= bullcow 0.5.0
+by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
+  godfat (XD) godfat.org
+
+== LINKS:
+
+* github-project[http://github.com/godfat/bullcow]
+* rubyforge-project[http://rubyforge.org/projects/ludy]
+
+== DESCRIPTION:
+
+ http://en.wikipedia.org/wiki/Bulls_and_cows
+
+== SYNOPSIS:
+
+ require 'bullcow'
+
+ # create a game
+ g = BullCow::Game.new(  set: ('a'..'z').to_a,
+                        size: 10 )
+
+ # assign a player with ai player
+ g.player = g.create_ai
+
+ # start the game
+ g.start
+
+ # or
+ # start an ai game
+ g.start_ai
+
+ # or
+ # start a human game
+ g.start_human
+
+ # or
+ # assgin a player with human player
+ g.player = g.create_human
+
+ # start the game
+ g.start
+
+ # or
+ # create a ai player with the setting
+ ai = BullCow::AI.new(  set: ('a'..'z').to_a,
+                       size: 7 )
+
+ # tell the ai that 'anythig' yields 2A1B
+ ai.process('anythig_z', 2, 1) # => returns next guessed string
+
+ # yields a guess, and remember it for next AI#session_process
+ ai.session_guess
+
+ # tell the ai that previous guess yields 2A1B
+ ai.session_process(2, 1) # => returns next guessed string
+
+== REQUIREMENTS:
+
+* ruby 1.9.1+
+
+== INSTALL:
+
+> gem install bullcow
+
+== LICENSE:
+
+  Apache License 2.0
+
+  Copyright (c) 2008, Lin Jen-Shin (aka godfat 真常)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
