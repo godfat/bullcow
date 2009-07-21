@@ -46,7 +46,7 @@ by Lin Jen-Shin (aka godfat-真常[http://godfat.org])
                        size: 7 )
 
  # tell the ai that 'anythig' yields 2A1B
- ai.process('anythig_z', 2, 1) # => returns next guessed string
+ ai.process('anythig', 2, 1) # => returns next guessed string
 
  # yields a guess, and remember it for next AI#session_process
  ai.session_guess
