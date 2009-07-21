@@ -1,14 +1,13 @@
-#!/usr/bin/env ruby
 # encoding: utf-8
 
 module NumGame
   class AI
-    attr_reader :ans, :set, :size
+    attr_reader :set, :size, :ans
 
     def initialize opts = {}
-      @ans  = []
       @set  = opts[:set]  || ('0'..'9').to_a
       @size = opts[:size] || 4
+      @ans  = []
     end
 
     def guess
