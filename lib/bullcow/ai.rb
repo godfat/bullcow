@@ -61,6 +61,7 @@ module BullCow
       row.zip(candidate).count{ |x,y| x == y }
     end
 
+    # TODO: split this method
     def answers_generate candidates
       @ans << candidates.map{ |c|
         h = c.group_by{ |digit| digit.kind_of?(Array) }
