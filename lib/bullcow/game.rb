@@ -9,7 +9,7 @@ module BullCow
       @size = opts[:size] || 4
     end
 
-    def self.create_ai
+    def create_ai
       AI.new(set: set, size: size)
     end
   end # of Game
