@@ -3,10 +3,12 @@
 module BullCow
   class Game
     attr_reader :set, :size, :player, :ans
+    attr_accessor :filter
 
     def initialize opts = {}
-      @set  = opts[:set]  || ('0'..'9').to_a
-      @size = opts[:size] || 4
+      @set    = opts[:set]    || ('0'..'9').to_a
+      @size   = opts[:size]   || 4
+      @filter = opts[:filter] || FilterLog.new
     end
 
     def create_ai
@@ -35,8 +37,12 @@ module BullCow
 
     private
     def start_rec str
-      a, b = process(str)
-      start_rec(player.process(str, a, b)) if a != size
+      a, b = filter.ab(*process(filter.guess(str)))
+      if a == size
+        filter.win(str)
+      else
+        start_rec(player.process(str, a, b))
+      end
     end
   end # of Game
 end # of BullCow
