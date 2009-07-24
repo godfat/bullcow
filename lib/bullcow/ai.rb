@@ -18,8 +18,8 @@ module BullCow
       end.sample
     end
 
-    def process row, a, b
-      candidates = expand_candidates(row.scan(/./), a, b)
+    def process str, a, b
+      candidates = expand_candidates(str.scan(/./), a, b)
       if ans.empty?
         answers_generate(candidates)
       else
