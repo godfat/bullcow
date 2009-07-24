@@ -12,10 +12,10 @@ module BullCow
 
     def guess
       if ans.empty?
-        set.permutation(size).map(&:join)
+        set.shuffle.take(size).join
       else
-        ans.last
-      end.sample
+        ans.last.sample
+      end
     end
 
     def process str, a, b
