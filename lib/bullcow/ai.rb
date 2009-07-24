@@ -64,9 +64,13 @@ module BullCow
     def answers_generate candidates
       @ans << candidates.map{ |c|
         h = c.group_by{ |digit| digit.kind_of?(Array) }
-        (set - h[true][0] - h[false]).permutation(h[true].size).map{ |b|
-          c.map{ |digit| digit.kind_of?(Array) ? b.shift : digit }.join
-        }
+        if h[true] # need expand
+          (set - h[true][0] - h[false]).permutation(h[true].size).map{ |b|
+            c.map{ |digit| digit.kind_of?(Array) ? b.shift : digit }.join
+          }
+        else
+          h[false].join
+        end
       }.flatten
     end
 
