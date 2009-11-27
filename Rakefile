@@ -7,12 +7,12 @@ rescue LoadError
 end
 
 ensure_in_path 'lib'
-require 'source-tools/version'
+require 'bullcow/version'
 
 Bones{
   name    'bullcow'
   url     'http://github.com/godfat/bullcow'
-  version SourceTools::VERSION
+  version BullCow::VERSION
 
   authors 'Lin Jen-Shin (aka godfat 真常)'
   email   'godfat (XD) godfat.org'
