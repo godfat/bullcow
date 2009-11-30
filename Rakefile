@@ -7,13 +7,16 @@ rescue LoadError
 end
 
 ensure_in_path 'lib'
-require 'bullcow/version'
+proj = 'bullcow'
 
 Bones{
-  name    'bullcow'
-  url     'http://github.com/godfat/bullcow'
+  require "#{proj}/version"
   version BullCow::VERSION
 
+  # ruby_opts [''] # silence warning, too many in addressable and/or dm-core
+
+  name    proj
+  url     "http://github.com/godfat/#{proj}"
   authors 'Lin Jen-Shin (aka godfat 真常)'
   email   'godfat (XD) godfat.org'
 
